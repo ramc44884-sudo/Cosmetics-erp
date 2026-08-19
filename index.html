@@ -2,38 +2,60 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#6c2bd9">
 <link rel="manifest" href="./manifest.json">
 <title>Cosmetics & Bangles ERP</title>
 
 <style>
 *{box-sizing:border-box;font-family:Arial,sans-serif}
-body{margin:0;background:#f5f5f5;color:#222}
-header{background:#6c2bd9;color:#fff;padding:17px;text-align:center}
+body{margin:0;background:#f5f5f7;color:#222}
+header{background:#6c2bd9;color:#fff;padding:16px;text-align:center;position:sticky;top:0;z-index:10}
 header h1{margin:0;font-size:20px}
-.container{padding:14px;padding-bottom:80px}
-.screen{display:none}.screen.active{display:block}
+.container{padding:14px;padding-bottom:85px;max-width:900px;margin:auto}
+.screen{display:none}
+.screen.active{display:block}
+.title{font-size:21px;font-weight:bold;margin:8px 0 15px}
 .cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .card{background:#fff;padding:15px;border-radius:12px;box-shadow:0 2px 7px #ddd}
-.card small{color:#666}.card b{display:block;font-size:20px;margin-top:7px}
-button{border:0;border-radius:9px;padding:12px;cursor:pointer}
-.primary{width:100%;background:#6c2bd9;color:#fff;font-size:16px;font-weight:bold;margin-top:12px}
+.card small{color:#666}
+.card b{display:block;font-size:20px;margin-top:7px}
+button{border:0;border-radius:9px;padding:11px;cursor:pointer}
+.primary{width:100%;background:#6c2bd9;color:white;font-size:15px;font-weight:bold;margin-top:10px}
 .secondary{background:#ddd;margin-bottom:12px}
-.menu{background:#fff;width:100%;text-align:left;margin-top:9px;font-size:15px}
-input,select{width:100%;padding:12px;margin:6px 0 11px;border:1px solid #ccc;border-radius:8px;background:#fff}
+.success{background:#188038!important;color:white}
+.danger{background:#d93025!important;color:white}
+.warning{background:#f9ab00!important;color:#111}
+.menu{background:white;width:100%;text-align:left;margin-top:9px;font-size:15px;box-shadow:0 1px 5px #ddd}
+.box{background:#fff;padding:14px;border-radius:11px;margin-bottom:11px;box-shadow:0 1px 5px #ddd}
+input,select{width:100%;padding:12px;margin:5px 0 12px;border:1px solid #ccc;border-radius:8px;background:white;font-size:15px}
 label{font-size:13px;font-weight:bold}
-.title{font-size:20px;font-weight:bold;margin-bottom:15px}
-.box{background:#fff;padding:13px;border-radius:10px;margin-bottom:10px}
-.row{display:flex;justify-content:space-between;gap:8px;margin:7px 0}
-.row button{background:#eee;padding:7px}
-.danger{background:#e53935!important;color:white}
-.success{background:#188038;color:white}
-.nav{position:fixed;bottom:0;left:0;right:0;background:white;display:grid;grid-template-columns:repeat(4,1fr);box-shadow:0 -2px 8px #ddd}
-.nav button{background:white;font-size:12px;border-radius:0}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.row>*{max-width:100%}
+.product-card{background:#fff;padding:13px;border-radius:10px;margin-bottom:9px;box-shadow:0 1px 5px #ddd}
+.product-card h3{margin:0 0 6px}
+.badge{display:inline-block;padding:4px 7px;border-radius:5px;background:#eee;font-size:11px}
+.low{background:#ffd6d6;color:#b00020}
+.good{background:#d7f5dc;color:#146c2e}
+.total{font-size:20px;font-weight:bold;text-align:right;margin:14px 0}
+.bill-line{background:#fff;padding:12px;border-radius:9px;margin-bottom:8px}
+.bottom{position:fixed;bottom:0;left:0;right:0;background:#fff;display:grid;grid-template-columns:repeat(5,1fr);box-shadow:0 -2px 9px #ccc;z-index:20}
+.bottom button{background:#fff;border-radius:0;padding:8px 2px;font-size:11px}
 table{width:100%;border-collapse:collapse;background:#fff}
 th,td{padding:8px;border-bottom:1px solid #eee;text-align:left;font-size:12px}
-.total{font-size:19px;font-weight:bold;text-align:right;margin:12px 0}
+.empty{text-align:center;color:#777;padding:25px}
+.stat{font-size:24px;font-weight:bold}
+.search{margin-bottom:10px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;align-items:flex-end;z-index:50}
+.modal.show{display:flex}
+.modal-box{background:white;width:100%;max-height:90vh;overflow:auto;border-radius:18px 18px 0 0;padding:18px}
+.qr{width:220px;height:220px;display:block;margin:12px auto}
+.print-only{display:none}
+
+@media(min-width:700px){
+.cards{grid-template-columns:repeat(4,1fr)}
+.bottom{position:static;max-width:900px;margin:auto}
+}
 </style>
 </head>
 
@@ -45,23 +67,58 @@ th,td{padding:8px;border-bottom:1px solid #eee;text-align:left;font-size:12px}
 
 <div class="container">
 
-<!-- DASHBOARD -->
+<!-- HOME -->
 <section id="home" class="screen active">
+<div class="title">Dashboard</div>
+
 <div class="cards">
-<div class="card"><small>Today's Sales</small><b id="dSales">₹0</b></div>
-<div class="card"><small>Today's Profit</small><b id="dProfit">₹0</b></div>
-<div class="card"><small>Total Products</small><b id="dProducts">0</b></div>
-<div class="card"><small>Total Stock</small><b id="dStock">0</b></div>
+<div class="card">
+<small>Today's Sales</small>
+<b id="todaySales">₹0</b>
+</div>
+<div class="card">
+<small>Today's Profit</small>
+<b id="todayProfit">₹0</b>
+</div>
+<div class="card">
+<small>Cash Today</small>
+<b id="todayCash">₹0</b>
+</div>
+<div class="card">
+<small>UPI Today</small>
+<b id="todayUpi">₹0</b>
+</div>
+</div>
+
+<div class="cards" style="margin-top:10px">
+<div class="card">
+<small>Total Products</small>
+<b id="totalProducts">0</b>
+</div>
+<div class="card">
+<small>Total Stock</small>
+<b id="totalStock">0</b>
+</div>
+<div class="card">
+<small>Low Stock</small>
+<b id="lowStock">0</b>
+</div>
+<div class="card">
+<small>Customers</small>
+<b id="totalCustomers">0</b>
+</div>
 </div>
 
 <button class="primary" onclick="show('billing')">🧾 NEW BILL</button>
-<button class="primary" onclick="show('products')">📦 ADD / VIEW PRODUCTS</button>
+<button class="primary" onclick="show('products')">📦 PRODUCTS / STOCK</button>
 
-<button class="menu" onclick="show('billing')">🧾 Billing</button>
-<button class="menu" onclick="show('products')">📦 Products & Stock</button>
-<button class="menu" onclick="show('purchase')">🛒 Purchase</button>
+<button class="menu" onclick="show('sales')">📊 Sales History</button>
+<button class="menu" onclick="show('purchase')">🛒 Purchase / Stock In</button>
+<button class="menu" onclick="show('customers')">👤 Customers</button>
 <button class="menu" onclick="show('expenses')">💸 Expenses</button>
-<button class="menu" onclick="show('reports')">📊 Reports & Profit/Loss</button>
+<button class="menu" onclick="show('reports')">📈 Profit & Loss</button>
+<button class="menu" onclick="show('backup')">💾 Backup / Restore</button>
+<button class="menu" onclick="show('settings')">⚙️ Shop Settings</button>
 </section>
 
 <!-- PRODUCTS -->
@@ -70,32 +127,62 @@ th,td{padding:8px;border-bottom:1px solid #eee;text-align:left;font-size:12px}
 <div class="title">📦 Products & Stock</div>
 
 <div class="box">
-<label>Product Name</label>
-<input id="pName" placeholder="Example: Lipstick">
-
-<label>Category</label>
-<select id="pCat">
-<option>Cosmetics</option>
-<option>Bangles</option>
-<option>Other</option>
-</select>
-
-<label>Purchase Price</label>
-<input id="pBuy" type="number" placeholder="100">
-
-<label>Selling Price</label>
-<input id="pSell" type="number" placeholder="150">
-
-<label>Stock Quantity</label>
-<input id="pQty" type="number" placeholder="10">
-
-<label>Barcode</label>
-<input id="pBarcode" placeholder="Optional">
-
-<button class="primary" onclick="addProduct()">💾 SAVE PRODUCT</button>
+<label>Search Product</label>
+<input class="search" id="productSearch" oninput="renderProducts()" placeholder="Product name / barcode">
+<button class="primary" onclick="openProductForm()">➕ ADD PRODUCT</button>
 </div>
 
 <div id="productList"></div>
+</section>
+
+<!-- PRODUCT FORM -->
+<section id="productForm" class="screen">
+<button class="secondary" onclick="show('products')">← Back</button>
+<div class="title" id="productFormTitle">➕ Add Product</div>
+
+<div class="box">
+<input type="hidden" id="editProductId">
+
+<label>Product Name *</label>
+<input id="pfName" placeholder="Example: Lakme Lipstick">
+
+<label>Category *</label>
+<select id="pfCategory">
+<option>Cosmetics</option>
+<option>Bangles</option>
+<option>Face Care</option>
+<option>Hair Care</option>
+<option>Makeup</option>
+<option>Jewellery</option>
+<option>Other</option>
+</select>
+
+<label>Brand</label>
+<input id="pfBrand" placeholder="Brand">
+
+<label>Purchase Price *</label>
+<input id="pfBuy" type="number" min="0" placeholder="100">
+
+<label>Selling Price *</label>
+<input id="pfSell" type="number" min="0" placeholder="150">
+
+<label>MRP</label>
+<input id="pfMrp" type="number" min="0" placeholder="180">
+
+<label>Stock Quantity *</label>
+<input id="pfQty" type="number" min="0" placeholder="10">
+
+<label>Minimum Stock Alert</label>
+<input id="pfMin" type="number" min="0" value="5">
+
+<label>Barcode</label>
+<input id="pfBarcode" placeholder="Optional">
+
+<label>Design / Size / Color</label>
+<input id="pfDetails" placeholder="Especially useful for bangles">
+
+<button class="primary success" onclick="saveProduct()">💾 SAVE PRODUCT</button>
+</div>
 </section>
 
 <!-- BILLING -->
@@ -104,31 +191,60 @@ th,td{padding:8px;border-bottom:1px solid #eee;text-align:left;font-size:12px}
 <div class="title">🧾 New Bill</div>
 
 <div class="box">
-<label>Select Product</label>
+<label>Customer Name</label>
+<input id="billCustomer" placeholder="Optional">
+
+<label>Customer Mobile</label>
+<input id="billMobile" type="tel" placeholder="Optional">
+
+<label>Search / Select Product</label>
+<input id="billSearch" oninput="fillBillProducts()" placeholder="Search product">
+
 <select id="billProduct"></select>
 
 <label>Quantity</label>
-<input id="billQty" type="number" value="1" min="1">
+<input id="billQty" type="number" min="1" value="1">
 
-<button class="primary" onclick="addToBill()">➕ ADD TO BILL</button>
+<button class="primary" onclick="addToCart()">➕ ADD TO BILL</button>
 </div>
 
-<div id="billItems"></div>
+<div id="cartList"></div>
 
 <div class="box">
-<label>Discount</label>
-<input id="billDiscount" type="number" value="0" oninput="renderBill()">
+<label>Discount ₹</label>
+<input id="billDiscount" type="number" min="0" value="0" oninput="renderCart()">
 
-<div class="total">Total: ₹<span id="billTotal">0</span></div>
+<div class="total">
+TOTAL: ₹<span id="cartTotal">0</span>
+</div>
 
 <label>Payment Method</label>
-<select id="billPayment">
+<select id="paymentMethod" onchange="paymentChanged()">
 <option>Cash</option>
 <option>UPI</option>
 <option>Card</option>
 </select>
 
-<button class="primary success" onclick="completeSale()">✅ COMPLETE BILL</button>
+<div id="upiBox" style="display:none">
+<label>UPI ID</label>
+<input id="billUpi" placeholder="yourshop@upi">
+</div>
+
+<button class="primary success" onclick="completeBill()">✅ COMPLETE BILL</button>
+</div>
+</section>
+
+<!-- UPI -->
+<section id="upiPayment" class="screen">
+<button class="secondary" onclick="show('billing')">← Back</button>
+<div class="title">📱 UPI Payment</div>
+
+<div class="box" style="text-align:center">
+<h2>Pay ₹<span id="upiAmount">0</span></h2>
+<img id="upiQr" class="qr" alt="UPI QR">
+<p>Customer QR scan करके payment कर सकता है.</p>
+<p><b>Payment verify करने के बाद Complete Bill दबाएँ.</b></p>
+<button class="primary success" onclick="finishUpiBill()">✅ PAYMENT RECEIVED</button>
 </div>
 </section>
 
@@ -142,13 +258,49 @@ th,td{padding:8px;border-bottom:1px solid #eee;text-align:left;font-size:12px}
 <select id="purchaseProduct"></select>
 
 <label>Quantity</label>
-<input id="purchaseQty" type="number" value="1">
+<input id="purchaseQty" type="number" min="1" value="1">
 
 <label>Purchase Price</label>
-<input id="purchasePrice" type="number">
+<input id="purchasePrice" type="number" min="0">
 
-<button class="primary" onclick="addPurchase()">💾 SAVE PURCHASE</button>
+<label>Supplier</label>
+<input id="purchaseSupplier" placeholder="Optional">
+
+<button class="primary success" onclick="savePurchase()">💾 SAVE PURCHASE</button>
 </div>
+
+<div id="purchaseList"></div>
+</section>
+
+<!-- SALES -->
+<section id="sales" class="screen">
+<button class="secondary" onclick="show('home')">← Back</button>
+<div class="title">📊 Sales History</div>
+
+<div class="box">
+<label>Search Bill / Customer</label>
+<input id="salesSearch" oninput="renderSales()" placeholder="Search">
+</div>
+
+<div id="salesList"></div>
+</section>
+
+<!-- CUSTOMERS -->
+<section id="customers" class="screen">
+<button class="secondary" onclick="show('home')">← Back</button>
+<div class="title">👤 Customers</div>
+
+<div class="box">
+<label>Customer Name</label>
+<input id="customerName" placeholder="Name">
+
+<label>Mobile</label>
+<input id="customerMobile" placeholder="Mobile">
+
+<button class="primary success" onclick="saveCustomer()">💾 SAVE CUSTOMER</button>
+</div>
+
+<div id="customerList"></div>
 </section>
 
 <!-- EXPENSES -->
@@ -158,12 +310,12 @@ th,td{padding:8px;border-bottom:1px solid #eee;text-align:left;font-size:12px}
 
 <div class="box">
 <label>Expense Name</label>
-<input id="eName" placeholder="Electricity / Rent / Salary">
+<input id="expenseName" placeholder="Rent / Electricity / Salary">
 
 <label>Amount</label>
-<input id="eAmount" type="number">
+<input id="expenseAmount" type="number" min="0">
 
-<button class="primary" onclick="addExpense()">💾 SAVE EXPENSE</button>
+<button class="primary success" onclick="saveExpense()">💾 SAVE EXPENSE</button>
 </div>
 
 <div id="expenseList"></div>
@@ -172,136 +324,378 @@ th,td{padding:8px;border-bottom:1px solid #eee;text-align:left;font-size:12px}
 <!-- REPORTS -->
 <section id="reports" class="screen">
 <button class="secondary" onclick="show('home')">← Back</button>
-<div class="title">📊 Reports & Profit/Loss</div>
+<div class="title">📈 Profit & Loss</div>
 
-<div class="cards">
-<div class="card"><small>Total Sales</small><b id="rSales">₹0</b></div>
-<div class="card"><small>Gross Profit</small><b id="rProfit">₹0</b></div>
-<div class="card"><small>Expenses</small><b id="rExpense">₹0</b></div>
-<div class="card"><small>Net Profit</small><b id="rNet">₹0</b></div>
+<div class="box">
+<label>Report Period</label>
+<select id="reportPeriod" onchange="renderReports()">
+<option value="today">Today</option>
+<option value="month">This Month</option>
+<option value="all">All Time</option>
+</select>
 </div>
 
-<h3>Recent Sales</h3>
-<div id="salesList"></div>
+<div class="cards">
+<div class="card"><small>Sales</small><b id="reportSales">₹0</b></div>
+<div class="card"><small>Gross Profit</small><b id="reportGross">₹0</b></div>
+<div class="card"><small>Expenses</small><b id="reportExpenses">₹0</b></div>
+<div class="card"><small>Net Profit</small><b id="reportNet">₹0</b></div>
+</div>
+
+<div class="box" style="margin-top:12px">
+<h3>Payment Summary</h3>
+Cash: ₹<span id="reportCash">0</span><br><br>
+UPI: ₹<span id="reportUpi">0</span><br><br>
+Card: ₹<span id="reportCard">0</span>
+</div>
+</section>
+
+<!-- BACKUP -->
+<section id="backup" class="screen">
+<button class="secondary" onclick="show('home')">← Back</button>
+<div class="title">💾 Backup / Restore</div>
+
+<div class="box">
+<p>Backup करने से आपके products, sales, customers, purchases और expenses एक file में save होंगे.</p>
+
+<button class="primary" onclick="downloadBackup()">⬇️ DOWNLOAD BACKUP</button>
+
+<label style="display:block;margin-top:15px">Restore Backup</label>
+<input id="restoreFile" type="file" accept=".json">
+<button class="primary" onclick="restoreBackup()">⬆️ RESTORE BACKUP</button>
+
+<button class="primary danger" onclick="clearAllData()">⚠️ DELETE ALL DATA</button>
+</div>
+</section>
+
+<!-- SETTINGS -->
+<section id="settings" class="screen">
+<button class="secondary" onclick="show('home')">← Back</button>
+<div class="title">⚙️ Shop Settings</div>
+
+<div class="box">
+<label>Shop Name</label>
+<input id="shopName" placeholder="My Cosmetics Shop">
+
+<label>Shop Mobile</label>
+<input id="shopMobile" placeholder="Mobile">
+
+<label>Shop Address</label>
+<input id="shopAddress" placeholder="Address">
+
+<label>UPI ID</label>
+<input id="shopUpi" placeholder="yourshop@upi">
+
+<button class="primary success" onclick="saveSettings()">💾 SAVE SETTINGS</button>
+</div>
 </section>
 
 </div>
 
-<!-- NAVIGATION -->
-<div class="nav">
+<!-- BOTTOM NAV -->
+<div class="bottom">
 <button onclick="show('home')">🏠<br>Home</button>
 <button onclick="show('billing')">🧾<br>Bill</button>
 <button onclick="show('products')">📦<br>Stock</button>
-<button onclick="show('reports')">📊<br>Reports</button>
+<button onclick="show('sales')">📊<br>Sales</button>
+<button onclick="show('reports')">📈<br>Reports</button>
 </div>
+
+<!-- PRINT AREA -->
+<div id="printArea" class="print-only"></div>
 
 <script>
 
-let products=JSON.parse(localStorage.getItem("erp_products")||"[]");
-let sales=JSON.parse(localStorage.getItem("erp_sales")||"[]");
-let expenses=JSON.parse(localStorage.getItem("erp_expenses")||"[]");
-let purchases=JSON.parse(localStorage.getItem("erp_purchases")||"[]");
-let cart=[];
+/* =========================
+   DATABASE - LOCAL STORAGE
+========================= */
 
-function save(){
-localStorage.setItem("erp_products",JSON.stringify(products));
-localStorage.setItem("erp_sales",JSON.stringify(sales));
-localStorage.setItem("erp_expenses",JSON.stringify(expenses));
-localStorage.setItem("erp_purchases",JSON.stringify(purchases));
+let db=JSON.parse(localStorage.getItem("cosmeticsERP")||"null");
+
+if(!db){
+db={
+products:[],
+sales:[],
+customers:[],
+purchases:[],
+expenses:[],
+settings:{
+shopName:"Cosmetics & Bangles",
+shopMobile:"",
+shopAddress:"",
+shopUpi:""
+},
+nextBill:1
+};
+saveDB();
 }
+
+let cart=[];
+let pendingUpiBill=null;
+
+/* =========================
+   DATABASE FUNCTIONS
+========================= */
+
+function saveDB(){
+localStorage.setItem("cosmeticsERP",JSON.stringify(db));
+}
+
+function money(n){
+return "₹"+Number(n||0).toFixed(2);
+}
+
+function today(){
+return new Date().toISOString().slice(0,10);
+}
+
+function month(){
+return new Date().toISOString().slice(0,7);
+}
+
+function escapeHtml(s){
+return String(s??"").replace(/[&<>"']/g,m=>({
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#039;"
+}[m]));
+}
+
+/* =========================
+   SCREEN
+========================= */
 
 function show(id){
 document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));
 document.getElementById(id).classList.add("active");
 refresh();
+window.scrollTo(0,0);
 }
 
-function addProduct(){
+/* =========================
+   DASHBOARD
+========================= */
 
-let name=pName.value.trim();
-let buy=Number(pBuy.value);
-let sell=Number(pSell.value);
-let qty=Number(pQty.value);
+function renderDashboard(){
 
-if(!name||buy<=0||sell<=0||qty<0){
-alert("Product details sahi se bhariye.");
+let tSales=db.sales.filter(x=>x.date===today());
+
+let sales=tSales.reduce((s,x)=>s+x.total,0);
+let profit=tSales.reduce((s,x)=>s+x.profit,0);
+
+let cash=tSales.filter(x=>x.payment==="Cash")
+.reduce((s,x)=>s+x.total,0);
+
+let upi=tSales.filter(x=>x.payment==="UPI")
+.reduce((s,x)=>s+x.total,0);
+
+let stock=db.products.reduce((s,x)=>s+Number(x.qty),0);
+
+let low=db.products.filter(x=>Number(x.qty)<=Number(x.min)).length;
+
+todaySales.innerText=money(sales);
+todayProfit.innerText=money(profit);
+todayCash.innerText=money(cash);
+todayUpi.innerText=money(upi);
+totalProducts.innerText=db.products.length;
+totalStock.innerText=stock;
+lowStock.innerText=low;
+totalCustomers.innerText=db.customers.length;
+}
+
+/* =========================
+   PRODUCTS
+========================= */
+
+function openProductForm(id=null){
+
+editProductId.value=id||"";
+
+if(id){
+let p=db.products.find(x=>x.id===id);
+
+productFormTitle.innerText="✏️ Edit Product";
+
+pfName.value=p.name;
+pfCategory.value=p.category;
+pfBrand.value=p.brand||"";
+pfBuy.value=p.buy;
+pfSell.value=p.sell;
+pfMrp.value=p.mrp||"";
+pfQty.value=p.qty;
+pfMin.value=p.min;
+pfBarcode.value=p.barcode||"";
+pfDetails.value=p.details||"";
+}else{
+
+productFormTitle.innerText="➕ Add Product";
+
+["pfName","pfBrand","pfBuy","pfSell","pfMrp","pfQty","pfBarcode","pfDetails"]
+.forEach(id=>document.getElementById(id).value="");
+
+pfMin.value=5;
+}
+
+show("productForm");
+}
+
+function saveProduct(){
+
+let name=pfName.value.trim();
+let buy=Number(pfBuy.value);
+let sell=Number(pfSell.value);
+let qty=Number(pfQty.value);
+let min=Number(pfMin.value||0);
+
+if(!name||buy<0||sell<=0||qty<0){
+alert("Product name, selling price aur stock sahi bhariye.");
 return;
 }
 
-products.push({
+let id=editProductId.value;
+
+if(id){
+
+let p=db.products.find(x=>String(x.id)===String(id));
+
+p.name=name;
+p.category=pfCategory.value;
+p.brand=pfBrand.value.trim();
+p.buy=buy;
+p.sell=sell;
+p.mrp=Number(pfMrp.value||0);
+p.qty=qty;
+p.min=min;
+p.barcode=pfBarcode.value.trim();
+p.details=pfDetails.value.trim();
+
+alert("✅ Product updated.");
+
+}else{
+
+db.products.push({
 id:Date.now(),
 name,
-category:pCat.value,
+category:pfCategory.value,
+brand:pfBrand.value.trim(),
 buy,
 sell,
+mrp:Number(pfMrp.value||0),
 qty,
-barcode:pBarcode.value.trim()
+min,
+barcode:pfBarcode.value.trim(),
+details:pfDetails.value.trim()
 });
 
-save();
+alert("✅ Product saved.");
+}
 
-pName.value="";
-pBuy.value="";
-pSell.value="";
-pQty.value="";
-pBarcode.value="";
-
-alert("✅ Product saved");
-refresh();
+saveDB();
+show("products");
 }
 
 function deleteProduct(id){
-if(confirm("Product delete karein?")){
-products=products.filter(p=>p.id!==id);
-save();
-refresh();
+
+if(confirm("Is product ko delete karna hai?")){
+db.products=db.products.filter(x=>x.id!==id);
+saveDB();
+renderProducts();
+renderDashboard();
 }
 }
 
 function renderProducts(){
 
-let html="";
+let q=(productSearch.value||"").toLowerCase();
 
-if(products.length===0){
-html="<div class='box'>Abhi koi product nahi hai.</div>";
+let list=db.products.filter(p=>
+p.name.toLowerCase().includes(q)||
+(p.barcode||"").toLowerCase().includes(q)
+);
+
+if(!list.length){
+productList.innerHTML='<div class="empty">No products found.</div>';
+return;
 }
 
-products.forEach(p=>{
-html+=`
-<div class="box">
+productList.innerHTML=list.map(p=>{
+
+let low=Number(p.qty)<=Number(p.min);
+
+return `
+<div class="product-card">
 <div class="row">
-<strong>${escapeHtml(p.name)}</strong>
+<h3>${escapeHtml(p.name)}</h3>
+<span class="badge ${low?"low":"good"}">
+${low?"LOW STOCK":"IN STOCK"}
+</span>
+</div>
+
+${escapeHtml(p.category)}
+${p.brand?" • "+escapeHtml(p.brand):""}
+
+<br><br>
+Purchase: <b>${money(p.buy)}</b><br>
+Selling: <b>${money(p.sell)}</b><br>
+Stock: <b>${p.qty}</b>
+
+${p.details?"<br>Details: "+escapeHtml(p.details):""}
+${p.barcode?"<br>Barcode: "+escapeHtml(p.barcode):""}
+
+<div style="margin-top:10px">
+<button onclick="openProductForm(${p.id})">✏️ Edit</button>
 <button class="danger" onclick="deleteProduct(${p.id})">Delete</button>
 </div>
-Category: ${escapeHtml(p.category)}<br>
-Purchase: ₹${p.buy}<br>
-Selling: ₹${p.sell}<br>
-Stock: <strong>${p.qty}</strong>
-${p.barcode?`<br>Barcode: ${escapeHtml(p.barcode)}`:""}
-</div>`;
-});
+</div>
+`;
 
-productList.innerHTML=html;
+}).join("");
 }
 
-function fillProductSelects(){
+/* =========================
+   BILLING
+========================= */
 
-let options='<option value="">Select Product</option>';
+function fillBillProducts(){
 
-products.forEach(p=>{
-options+=`<option value="${p.id}">${escapeHtml(p.name)} - Stock ${p.qty}</option>`;
-});
+let q=(billSearch.value||"").toLowerCase();
 
-billProduct.innerHTML=options;
-purchaseProduct.innerHTML=options;
+let list=db.products.filter(p=>
+p.qty>0 &&
+(
+p.name.toLowerCase().includes(q)||
+(p.barcode||"").toLowerCase().includes(q)
+)
+);
+
+billProduct.innerHTML=
+'<option value="">Select Product</option>'+
+list.map(p=>
+`<option value="${p.id}">
+${escapeHtml(p.name)} - ${money(p.sell)} - Stock ${p.qty}
+</option>`
+).join("");
 }
 
-function addToBill(){
+function fillPurchaseProducts(){
+
+purchaseProduct.innerHTML=
+'<option value="">Select Product</option>'+
+db.products.map(p=>
+`<option value="${p.id}">
+${escapeHtml(p.name)} - Stock ${p.qty}
+</option>`
+).join("");
+}
+
+function addToCart(){
 
 let id=Number(billProduct.value);
 let qty=Number(billQty.value);
 
-let p=products.find(x=>x.id===id);
+let p=db.products.find(x=>x.id===id);
 
 if(!p){
 alert("Product select karein.");
@@ -309,19 +703,23 @@ return;
 }
 
 if(qty<=0||qty>p.qty){
-alert("Stock available nahi hai.");
+alert("Available stock: "+p.qty);
 return;
 }
 
-let existing=cart.find(x=>x.id===id);
+let old=cart.find(x=>x.id===id);
 
-if(existing){
-if(existing.qty+qty>p.qty){
+if(old){
+
+if(old.qty+qty>p.qty){
 alert("Itna stock available nahi hai.");
 return;
 }
-existing.qty+=qty;
+
+old.qty+=qty;
+
 }else{
+
 cart.push({
 id:p.id,
 name:p.name,
@@ -329,231 +727,89 @@ buy:p.buy,
 sell:p.sell,
 qty
 });
+
 }
 
-renderBill();
+billQty.value=1;
+renderCart();
 }
 
 function removeCart(id){
 cart=cart.filter(x=>x.id!==id);
-renderBill();
+renderCart();
 }
 
-function renderBill(){
+function renderCart(){
 
 let html="";
 let subtotal=0;
 
 cart.forEach(x=>{
-let total=x.sell*x.qty;
-subtotal+=total;
+
+let line=x.sell*x.qty;
+subtotal+=line;
 
 html+=`
-<div class="box">
+<div class="bill-line">
 <div class="row">
-<strong>${escapeHtml(x.name)}</strong>
+<b>${escapeHtml(x.name)}</b>
 <button class="danger" onclick="removeCart(${x.id})">Remove</button>
 </div>
-Qty: ${x.qty}<br>
-₹${x.sell} × ${x.qty} = <strong>₹${total}</strong>
-</div>`;
+₹${x.sell} × ${x.qty}
+= <b>${money(line)}</b>
+</div>
+`;
+
 });
 
-billItems.innerHTML=html;
+cartList.innerHTML=html||
+'<div class="empty">Bill mein koi product nahi hai.</div>';
 
-let discount=Number(billDiscount.value)||0;
+let discount=Number(billDiscount.value||0);
+
 let total=Math.max(0,subtotal-discount);
 
-billTotal.innerText=total;
+cartTotal.innerText=total.toFixed(2);
 }
 
-function completeSale(){
+function paymentChanged(){
 
-if(cart.length===0){
+upiBox.style.display=
+paymentMethod.value==="UPI"?"block":"none";
+}
+
+function completeBill(){
+
+if(!cart.length){
 alert("Bill mein product add karein.");
 return;
 }
 
-let discount=Number(billDiscount.value)||0;
-
+let discount=Number(billDiscount.value||0);
 let subtotal=cart.reduce((s,x)=>s+x.sell*x.qty,0);
 let total=Math.max(0,subtotal-discount);
 
-let cost=cart.reduce((s,x)=>s+x.buy*x.qty,0);
+if(paymentMethod.value==="UPI"){
 
-cart.forEach(item=>{
-let p=products.find(x=>x.id===item.id);
-p.qty-=item.qty;
-});
-
-sales.push({
-id:Date.now(),
-date:new Date().toISOString(),
-items:JSON.parse(JSON.stringify(cart)),
-subtotal,
+pendingUpiBill={
+customer:billCustomer.value.trim(),
+mobile:billMobile.value.trim(),
 discount,
+subtotal,
 total,
-cost,
-profit:total-cost,
-payment:billPayment.value
-});
+items:JSON.parse(JSON.stringify(cart)),
+upi:billUpi.value.trim()||db.settings.shopUpi
+};
 
-cart=[];
-billDiscount.value=0;
-
-save();
-alert("✅ Bill completed. Total ₹"+total);
-
-show("home");
-}
-
-function addPurchase(){
-
-let id=Number(purchaseProduct.value);
-let qty=Number(purchaseQty.value);
-let price=Number(purchasePrice.value);
-
-let p=products.find(x=>x.id===id);
-
-if(!p||qty<=0||price<=0){
-alert("Purchase details sahi se bhariye.");
+showUpi();
 return;
 }
 
-p.qty+=qty;
-p.buy=price;
-
-purchases.push({
-id:Date.now(),
-date:new Date().toISOString(),
-product:p.name,
-qty,
-price,
-total:qty*price
-});
-
-save();
-
-purchaseQty.value=1;
-purchasePrice.value="";
-
-alert("✅ Purchase saved. Stock updated.");
-refresh();
+saveBill(paymentMethod.value);
 }
 
-function addExpense(){
+function showUpi(){
 
-let name=eName.value.trim();
-let amount=Number(eAmount.value);
+if(!pendingUpiBill)return;
 
-if(!name||amount<=0){
-alert("Expense details bhariye.");
-return;
-}
-
-expenses.push({
-id:Date.now(),
-date:new Date().toISOString(),
-name,
-amount
-});
-
-save();
-
-eName.value="";
-eAmount.value="";
-
-alert("✅ Expense saved.");
-refresh();
-}
-
-function renderExpenses(){
-
-let html="";
-
-expenses.slice().reverse().forEach(e=>{
-html+=`
-<div class="box">
-<strong>${escapeHtml(e.name)}</strong><br>
-₹${e.amount}<br>
-<small>${new Date(e.date).toLocaleString()}</small>
-</div>`;
-});
-
-expenseList.innerHTML=html||"<div class='box'>No expenses.</div>";
-}
-
-function renderReports(){
-
-let totalSales=sales.reduce((s,x)=>s+x.total,0);
-let grossProfit=sales.reduce((s,x)=>s+x.profit,0);
-let totalExpense=expenses.reduce((s,x)=>s+x.amount,0);
-let netProfit=grossProfit-totalExpense;
-
-rSales.innerText="₹"+totalSales;
-rProfit.innerText="₹"+grossProfit;
-rExpense.innerText="₹"+totalExpense;
-rNet.innerText="₹"+netProfit;
-
-let html="";
-
-sales.slice().reverse().slice(0,20).forEach(s=>{
-html+=`
-<div class="box">
-<strong>Bill #${s.id}</strong><br>
-Total: ₹${s.total}<br>
-Payment: ${s.payment}<br>
-Profit: ₹${s.profit}<br>
-<small>${new Date(s.date).toLocaleString()}</small>
-</div>`;
-});
-
-salesList.innerHTML=html||"<div class='box'>No sales yet.</div>";
-}
-
-function refresh(){
-
-renderProducts();
-fillProductSelects();
-renderBill();
-renderExpenses();
-renderReports();
-
-let today=new Date().toDateString();
-
-let todaySales=sales.filter(s=>
-new Date(s.date).toDateString()===today
-);
-
-let ds=todaySales.reduce((s,x)=>s+x.total,0);
-let dp=todaySales.reduce((s,x)=>s+x.profit,0);
-let stock=products.reduce((s,p)=>s+Number(p.qty),0);
-
-dSales.innerText="₹"+ds;
-dProfit.innerText="₹"+dp;
-dProducts.innerText=products.length;
-dStock.innerText=stock;
-}
-
-function escapeHtml(text){
-return String(text).replace(/[&<>"']/g,function(m){
-return {
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#039;"
-}[m];
-});
-}
-
-refresh();
-
-if("serviceWorker" in navigator){
-navigator.serviceWorker.register("./sw.js").catch(()=>{});
-}
-
-</script>
-
-</body>
-                                              </html>
+upiAmount.innerTex
