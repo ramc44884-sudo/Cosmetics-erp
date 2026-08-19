@@ -1,226 +1,559 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#6c2bd9">
+<link rel="manifest" href="./manifest.json">
+<title>Cosmetics & Bangles ERP</title>
 
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0">
-
-  <meta name="theme-color"
-        content="#6c2bd9">
-
-  <link rel="manifest"
-        href="./manifest.json">
-
-  <title>Cosmetics & Bangles ERP</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
-    }
-
-    body {
-      margin: 0;
-      background: #f5f5f5;
-      color: #222;
-    }
-
-    header {
-      background: #6c2bd9;
-      color: white;
-      padding: 20px 15px;
-      text-align: center;
-    }
-
-    header h1 {
-      margin: 0;
-      font-size: 21px;
-    }
-
-    header p {
-      margin: 6px 0 0;
-      font-size: 13px;
-    }
-
-    .container {
-      padding: 15px;
-      padding-bottom: 80px;
-    }
-
-    .cards {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 15px;
-    }
-
-    .card {
-      background: white;
-      padding: 17px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-    }
-
-    .card h3 {
-      margin: 0 0 8px;
-      font-size: 13px;
-      color: #666;
-    }
-
-    .card p {
-      margin: 0;
-      font-size: 21px;
-      font-weight: bold;
-    }
-
-    .main-button {
-      width: 100%;
-      border: none;
-      border-radius: 11px;
-      padding: 16px;
-      margin-top: 15px;
-      background: #6c2bd9;
-      color: white;
-      font-size: 16px;
-      font-weight: bold;
-    }
-
-    .section {
-      margin-top: 22px;
-    }
-
-    .section-title {
-      font-size: 18px;
-      font-weight: bold;
-      margin-bottom: 10px;
-    }
-
-    .menu-button {
-      background: white;
-      border: none;
-      width: 100%;
-      padding: 16px;
-      margin-bottom: 10px;
-      border-radius: 11px;
-      text-align: left;
-      font-size: 15px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-    }
-
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: white;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      padding: 9px 5px;
-      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-    }
-
-    .bottom-nav button {
-      border: none;
-      background: transparent;
-      font-size: 12px;
-      padding: 7px 2px;
-    }
-  </style>
+<style>
+*{box-sizing:border-box;font-family:Arial,sans-serif}
+body{margin:0;background:#f5f5f5;color:#222}
+header{background:#6c2bd9;color:#fff;padding:17px;text-align:center}
+header h1{margin:0;font-size:20px}
+.container{padding:14px;padding-bottom:80px}
+.screen{display:none}.screen.active{display:block}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.card{background:#fff;padding:15px;border-radius:12px;box-shadow:0 2px 7px #ddd}
+.card small{color:#666}.card b{display:block;font-size:20px;margin-top:7px}
+button{border:0;border-radius:9px;padding:12px;cursor:pointer}
+.primary{width:100%;background:#6c2bd9;color:#fff;font-size:16px;font-weight:bold;margin-top:12px}
+.secondary{background:#ddd;margin-bottom:12px}
+.menu{background:#fff;width:100%;text-align:left;margin-top:9px;font-size:15px}
+input,select{width:100%;padding:12px;margin:6px 0 11px;border:1px solid #ccc;border-radius:8px;background:#fff}
+label{font-size:13px;font-weight:bold}
+.title{font-size:20px;font-weight:bold;margin-bottom:15px}
+.box{background:#fff;padding:13px;border-radius:10px;margin-bottom:10px}
+.row{display:flex;justify-content:space-between;gap:8px;margin:7px 0}
+.row button{background:#eee;padding:7px}
+.danger{background:#e53935!important;color:white}
+.success{background:#188038;color:white}
+.nav{position:fixed;bottom:0;left:0;right:0;background:white;display:grid;grid-template-columns:repeat(4,1fr);box-shadow:0 -2px 8px #ddd}
+.nav button{background:white;font-size:12px;border-radius:0}
+table{width:100%;border-collapse:collapse;background:#fff}
+th,td{padding:8px;border-bottom:1px solid #eee;text-align:left;font-size:12px}
+.total{font-size:19px;font-weight:bold;text-align:right;margin:12px 0}
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>🛍️ Cosmetics & Bangles ERP</h1>
-  <p>Retail Shop Management</p>
+<h1>🛍️ Cosmetics & Bangles ERP</h1>
 </header>
 
 <div class="container">
 
-  <div class="cards">
+<!-- DASHBOARD -->
+<section id="home" class="screen active">
+<div class="cards">
+<div class="card"><small>Today's Sales</small><b id="dSales">₹0</b></div>
+<div class="card"><small>Today's Profit</small><b id="dProfit">₹0</b></div>
+<div class="card"><small>Total Products</small><b id="dProducts">0</b></div>
+<div class="card"><small>Total Stock</small><b id="dStock">0</b></div>
+</div>
 
-    <div class="card">
-      <h3>Today's Sales</h3>
-      <p>₹0</p>
-    </div>
+<button class="primary" onclick="show('billing')">🧾 NEW BILL</button>
+<button class="primary" onclick="show('products')">📦 ADD / VIEW PRODUCTS</button>
 
-    <div class="card">
-      <h3>Today's Profit</h3>
-      <p>₹0</p>
-    </div>
+<button class="menu" onclick="show('billing')">🧾 Billing</button>
+<button class="menu" onclick="show('products')">📦 Products & Stock</button>
+<button class="menu" onclick="show('purchase')">🛒 Purchase</button>
+<button class="menu" onclick="show('expenses')">💸 Expenses</button>
+<button class="menu" onclick="show('reports')">📊 Reports & Profit/Loss</button>
+</section>
 
-    <div class="card">
-      <h3>Cash</h3>
-      <p>₹0</p>
-    </div>
+<!-- PRODUCTS -->
+<section id="products" class="screen">
+<button class="secondary" onclick="show('home')">← Back</button>
+<div class="title">📦 Products & Stock</div>
 
-    <div class="card">
-      <h3>UPI</h3>
-      <p>₹0</p>
-    </div>
+<div class="box">
+<label>Product Name</label>
+<input id="pName" placeholder="Example: Lipstick">
 
-  </div>
+<label>Category</label>
+<select id="pCat">
+<option>Cosmetics</option>
+<option>Bangles</option>
+<option>Other</option>
+</select>
 
-  <button class="main-button">
-    ➕ NEW BILL
-  </button>
+<label>Purchase Price</label>
+<input id="pBuy" type="number" placeholder="100">
 
-  <button class="main-button">
-    📦 ADD PRODUCT
-  </button>
+<label>Selling Price</label>
+<input id="pSell" type="number" placeholder="150">
 
-  <div class="section">
+<label>Stock Quantity</label>
+<input id="pQty" type="number" placeholder="10">
 
-    <div class="section-title">
-      Shop Management
-    </div>
+<label>Barcode</label>
+<input id="pBarcode" placeholder="Optional">
 
-    <button class="menu-button">
-      🧾 Billing
-    </button>
+<button class="primary" onclick="addProduct()">💾 SAVE PRODUCT</button>
+</div>
 
-    <button class="menu-button">
-      📦 Products & Stock
-    </button>
+<div id="productList"></div>
+</section>
 
-    <button class="menu-button">
-      🛒 Purchase
-    </button>
+<!-- BILLING -->
+<section id="billing" class="screen">
+<button class="secondary" onclick="show('home')">← Back</button>
+<div class="title">🧾 New Bill</div>
 
-    <button class="menu-button">
-      💰 Payments
-    </button>
+<div class="box">
+<label>Select Product</label>
+<select id="billProduct"></select>
 
-    <button class="menu-button">
-      📊 Sales Report
-    </button>
+<label>Quantity</label>
+<input id="billQty" type="number" value="1" min="1">
 
-    <button class="menu-button">
-      📈 Profit & Loss
-    </button>
+<button class="primary" onclick="addToBill()">➕ ADD TO BILL</button>
+</div>
 
-  </div>
+<div id="billItems"></div>
+
+<div class="box">
+<label>Discount</label>
+<input id="billDiscount" type="number" value="0" oninput="renderBill()">
+
+<div class="total">Total: ₹<span id="billTotal">0</span></div>
+
+<label>Payment Method</label>
+<select id="billPayment">
+<option>Cash</option>
+<option>UPI</option>
+<option>Card</option>
+</select>
+
+<button class="primary success" onclick="completeSale()">✅ COMPLETE BILL</button>
+</div>
+</section>
+
+<!-- PURCHASE -->
+<section id="purchase" class="screen">
+<button class="secondary" onclick="show('home')">← Back</button>
+<div class="title">🛒 Purchase / Stock In</div>
+
+<div class="box">
+<label>Product</label>
+<select id="purchaseProduct"></select>
+
+<label>Quantity</label>
+<input id="purchaseQty" type="number" value="1">
+
+<label>Purchase Price</label>
+<input id="purchasePrice" type="number">
+
+<button class="primary" onclick="addPurchase()">💾 SAVE PURCHASE</button>
+</div>
+</section>
+
+<!-- EXPENSES -->
+<section id="expenses" class="screen">
+<button class="secondary" onclick="show('home')">← Back</button>
+<div class="title">💸 Expenses</div>
+
+<div class="box">
+<label>Expense Name</label>
+<input id="eName" placeholder="Electricity / Rent / Salary">
+
+<label>Amount</label>
+<input id="eAmount" type="number">
+
+<button class="primary" onclick="addExpense()">💾 SAVE EXPENSE</button>
+</div>
+
+<div id="expenseList"></div>
+</section>
+
+<!-- REPORTS -->
+<section id="reports" class="screen">
+<button class="secondary" onclick="show('home')">← Back</button>
+<div class="title">📊 Reports & Profit/Loss</div>
+
+<div class="cards">
+<div class="card"><small>Total Sales</small><b id="rSales">₹0</b></div>
+<div class="card"><small>Gross Profit</small><b id="rProfit">₹0</b></div>
+<div class="card"><small>Expenses</small><b id="rExpense">₹0</b></div>
+<div class="card"><small>Net Profit</small><b id="rNet">₹0</b></div>
+</div>
+
+<h3>Recent Sales</h3>
+<div id="salesList"></div>
+</section>
 
 </div>
 
-<div class="bottom-nav">
-
-  <button>🏠<br>Home</button>
-
-  <button>🧾<br>Billing</button>
-
-  <button>📦<br>Stock</button>
-
-  <button>☰<br>More</button>
-
+<!-- NAVIGATION -->
+<div class="nav">
+<button onclick="show('home')">🏠<br>Home</button>
+<button onclick="show('billing')">🧾<br>Bill</button>
+<button onclick="show('products')">📦<br>Stock</button>
+<button onclick="show('reports')">📊<br>Reports</button>
 </div>
 
 <script>
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("./sw.js");
-  }
+
+let products=JSON.parse(localStorage.getItem("erp_products")||"[]");
+let sales=JSON.parse(localStorage.getItem("erp_sales")||"[]");
+let expenses=JSON.parse(localStorage.getItem("erp_expenses")||"[]");
+let purchases=JSON.parse(localStorage.getItem("erp_purchases")||"[]");
+let cart=[];
+
+function save(){
+localStorage.setItem("erp_products",JSON.stringify(products));
+localStorage.setItem("erp_sales",JSON.stringify(sales));
+localStorage.setItem("erp_expenses",JSON.stringify(expenses));
+localStorage.setItem("erp_purchases",JSON.stringify(purchases));
+}
+
+function show(id){
+document.querySelectorAll(".screen").forEach(x=>x.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+refresh();
+}
+
+function addProduct(){
+
+let name=pName.value.trim();
+let buy=Number(pBuy.value);
+let sell=Number(pSell.value);
+let qty=Number(pQty.value);
+
+if(!name||buy<=0||sell<=0||qty<0){
+alert("Product details sahi se bhariye.");
+return;
+}
+
+products.push({
+id:Date.now(),
+name,
+category:pCat.value,
+buy,
+sell,
+qty,
+barcode:pBarcode.value.trim()
+});
+
+save();
+
+pName.value="";
+pBuy.value="";
+pSell.value="";
+pQty.value="";
+pBarcode.value="";
+
+alert("✅ Product saved");
+refresh();
+}
+
+function deleteProduct(id){
+if(confirm("Product delete karein?")){
+products=products.filter(p=>p.id!==id);
+save();
+refresh();
+}
+}
+
+function renderProducts(){
+
+let html="";
+
+if(products.length===0){
+html="<div class='box'>Abhi koi product nahi hai.</div>";
+}
+
+products.forEach(p=>{
+html+=`
+<div class="box">
+<div class="row">
+<strong>${escapeHtml(p.name)}</strong>
+<button class="danger" onclick="deleteProduct(${p.id})">Delete</button>
+</div>
+Category: ${escapeHtml(p.category)}<br>
+Purchase: ₹${p.buy}<br>
+Selling: ₹${p.sell}<br>
+Stock: <strong>${p.qty}</strong>
+${p.barcode?`<br>Barcode: ${escapeHtml(p.barcode)}`:""}
+</div>`;
+});
+
+productList.innerHTML=html;
+}
+
+function fillProductSelects(){
+
+let options='<option value="">Select Product</option>';
+
+products.forEach(p=>{
+options+=`<option value="${p.id}">${escapeHtml(p.name)} - Stock ${p.qty}</option>`;
+});
+
+billProduct.innerHTML=options;
+purchaseProduct.innerHTML=options;
+}
+
+function addToBill(){
+
+let id=Number(billProduct.value);
+let qty=Number(billQty.value);
+
+let p=products.find(x=>x.id===id);
+
+if(!p){
+alert("Product select karein.");
+return;
+}
+
+if(qty<=0||qty>p.qty){
+alert("Stock available nahi hai.");
+return;
+}
+
+let existing=cart.find(x=>x.id===id);
+
+if(existing){
+if(existing.qty+qty>p.qty){
+alert("Itna stock available nahi hai.");
+return;
+}
+existing.qty+=qty;
+}else{
+cart.push({
+id:p.id,
+name:p.name,
+buy:p.buy,
+sell:p.sell,
+qty
+});
+}
+
+renderBill();
+}
+
+function removeCart(id){
+cart=cart.filter(x=>x.id!==id);
+renderBill();
+}
+
+function renderBill(){
+
+let html="";
+let subtotal=0;
+
+cart.forEach(x=>{
+let total=x.sell*x.qty;
+subtotal+=total;
+
+html+=`
+<div class="box">
+<div class="row">
+<strong>${escapeHtml(x.name)}</strong>
+<button class="danger" onclick="removeCart(${x.id})">Remove</button>
+</div>
+Qty: ${x.qty}<br>
+₹${x.sell} × ${x.qty} = <strong>₹${total}</strong>
+</div>`;
+});
+
+billItems.innerHTML=html;
+
+let discount=Number(billDiscount.value)||0;
+let total=Math.max(0,subtotal-discount);
+
+billTotal.innerText=total;
+}
+
+function completeSale(){
+
+if(cart.length===0){
+alert("Bill mein product add karein.");
+return;
+}
+
+let discount=Number(billDiscount.value)||0;
+
+let subtotal=cart.reduce((s,x)=>s+x.sell*x.qty,0);
+let total=Math.max(0,subtotal-discount);
+
+let cost=cart.reduce((s,x)=>s+x.buy*x.qty,0);
+
+cart.forEach(item=>{
+let p=products.find(x=>x.id===item.id);
+p.qty-=item.qty;
+});
+
+sales.push({
+id:Date.now(),
+date:new Date().toISOString(),
+items:JSON.parse(JSON.stringify(cart)),
+subtotal,
+discount,
+total,
+cost,
+profit:total-cost,
+payment:billPayment.value
+});
+
+cart=[];
+billDiscount.value=0;
+
+save();
+alert("✅ Bill completed. Total ₹"+total);
+
+show("home");
+}
+
+function addPurchase(){
+
+let id=Number(purchaseProduct.value);
+let qty=Number(purchaseQty.value);
+let price=Number(purchasePrice.value);
+
+let p=products.find(x=>x.id===id);
+
+if(!p||qty<=0||price<=0){
+alert("Purchase details sahi se bhariye.");
+return;
+}
+
+p.qty+=qty;
+p.buy=price;
+
+purchases.push({
+id:Date.now(),
+date:new Date().toISOString(),
+product:p.name,
+qty,
+price,
+total:qty*price
+});
+
+save();
+
+purchaseQty.value=1;
+purchasePrice.value="";
+
+alert("✅ Purchase saved. Stock updated.");
+refresh();
+}
+
+function addExpense(){
+
+let name=eName.value.trim();
+let amount=Number(eAmount.value);
+
+if(!name||amount<=0){
+alert("Expense details bhariye.");
+return;
+}
+
+expenses.push({
+id:Date.now(),
+date:new Date().toISOString(),
+name,
+amount
+});
+
+save();
+
+eName.value="";
+eAmount.value="";
+
+alert("✅ Expense saved.");
+refresh();
+}
+
+function renderExpenses(){
+
+let html="";
+
+expenses.slice().reverse().forEach(e=>{
+html+=`
+<div class="box">
+<strong>${escapeHtml(e.name)}</strong><br>
+₹${e.amount}<br>
+<small>${new Date(e.date).toLocaleString()}</small>
+</div>`;
+});
+
+expenseList.innerHTML=html||"<div class='box'>No expenses.</div>";
+}
+
+function renderReports(){
+
+let totalSales=sales.reduce((s,x)=>s+x.total,0);
+let grossProfit=sales.reduce((s,x)=>s+x.profit,0);
+let totalExpense=expenses.reduce((s,x)=>s+x.amount,0);
+let netProfit=grossProfit-totalExpense;
+
+rSales.innerText="₹"+totalSales;
+rProfit.innerText="₹"+grossProfit;
+rExpense.innerText="₹"+totalExpense;
+rNet.innerText="₹"+netProfit;
+
+let html="";
+
+sales.slice().reverse().slice(0,20).forEach(s=>{
+html+=`
+<div class="box">
+<strong>Bill #${s.id}</strong><br>
+Total: ₹${s.total}<br>
+Payment: ${s.payment}<br>
+Profit: ₹${s.profit}<br>
+<small>${new Date(s.date).toLocaleString()}</small>
+</div>`;
+});
+
+salesList.innerHTML=html||"<div class='box'>No sales yet.</div>";
+}
+
+function refresh(){
+
+renderProducts();
+fillProductSelects();
+renderBill();
+renderExpenses();
+renderReports();
+
+let today=new Date().toDateString();
+
+let todaySales=sales.filter(s=>
+new Date(s.date).toDateString()===today
+);
+
+let ds=todaySales.reduce((s,x)=>s+x.total,0);
+let dp=todaySales.reduce((s,x)=>s+x.profit,0);
+let stock=products.reduce((s,p)=>s+Number(p.qty),0);
+
+dSales.innerText="₹"+ds;
+dProfit.innerText="₹"+dp;
+dProducts.innerText=products.length;
+dStock.innerText=stock;
+}
+
+function escapeHtml(text){
+return String(text).replace(/[&<>"']/g,function(m){
+return {
+"&":"&amp;",
+"<":"&lt;",
+">":"&gt;",
+'"':"&quot;",
+"'":"&#039;"
+}[m];
+});
+}
+
+refresh();
+
+if("serviceWorker" in navigator){
+navigator.serviceWorker.register("./sw.js").catch(()=>{});
+}
+
 </script>
 
 </body>
-  </html>
+                                              </html>
