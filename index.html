@@ -2,9 +2,17 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#6c2bd9">
-  <title>Cosmetics ERP</title>
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <meta name="theme-color"
+        content="#6c2bd9">
+
+  <link rel="manifest"
+        href="./manifest.json">
+
+  <title>Cosmetics & Bangles ERP</title>
 
   <style>
     * {
@@ -21,50 +29,56 @@
     header {
       background: #6c2bd9;
       color: white;
-      padding: 18px;
+      padding: 20px 15px;
       text-align: center;
     }
 
     header h1 {
       margin: 0;
-      font-size: 22px;
+      font-size: 21px;
+    }
+
+    header p {
+      margin: 6px 0 0;
+      font-size: 13px;
     }
 
     .container {
       padding: 15px;
+      padding-bottom: 80px;
     }
 
     .cards {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 12px;
+      margin-top: 15px;
     }
 
     .card {
       background: white;
-      padding: 18px;
+      padding: 17px;
       border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
 
     .card h3 {
       margin: 0 0 8px;
-      font-size: 14px;
+      font-size: 13px;
       color: #666;
     }
 
     .card p {
       margin: 0;
-      font-size: 22px;
+      font-size: 21px;
       font-weight: bold;
     }
 
-    .button {
-      display: block;
+    .main-button {
       width: 100%;
       border: none;
-      border-radius: 10px;
-      padding: 15px;
+      border-radius: 11px;
+      padding: 16px;
       margin-top: 15px;
       background: #6c2bd9;
       color: white;
@@ -72,20 +86,45 @@
       font-weight: bold;
     }
 
-    .menu {
-      margin-top: 20px;
+    .section {
+      margin-top: 22px;
     }
 
-    .menu button {
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .menu-button {
       background: white;
-      color: #222;
       border: none;
       width: 100%;
-      padding: 15px;
+      padding: 16px;
       margin-bottom: 10px;
-      border-radius: 10px;
+      border-radius: 11px;
       text-align: left;
-      font-size: 16px;
+      font-size: 15px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 9px 5px;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    }
+
+    .bottom-nav button {
+      border: none;
+      background: transparent;
+      font-size: 12px;
+      padding: 7px 2px;
     }
   </style>
 </head>
@@ -94,6 +133,7 @@
 
 <header>
   <h1>🛍️ Cosmetics & Bangles ERP</h1>
+  <p>Retail Shop Management</p>
 </header>
 
 <div class="container">
@@ -122,26 +162,65 @@
 
   </div>
 
-  <button class="button">
+  <button class="main-button">
     ➕ NEW BILL
   </button>
 
-  <button class="button">
+  <button class="main-button">
     📦 ADD PRODUCT
   </button>
 
-  <div class="menu">
+  <div class="section">
 
-    <button>🧾 Billing</button>
-    <button>📦 Products & Stock</button>
-    <button>🛒 Purchase</button>
-    <button>💰 Payments</button>
-    <button>📊 Sales Report</button>
-    <button>📈 Profit & Loss</button>
+    <div class="section-title">
+      Shop Management
+    </div>
+
+    <button class="menu-button">
+      🧾 Billing
+    </button>
+
+    <button class="menu-button">
+      📦 Products & Stock
+    </button>
+
+    <button class="menu-button">
+      🛒 Purchase
+    </button>
+
+    <button class="menu-button">
+      💰 Payments
+    </button>
+
+    <button class="menu-button">
+      📊 Sales Report
+    </button>
+
+    <button class="menu-button">
+      📈 Profit & Loss
+    </button>
 
   </div>
 
 </div>
+
+<div class="bottom-nav">
+
+  <button>🏠<br>Home</button>
+
+  <button>🧾<br>Billing</button>
+
+  <button>📦<br>Stock</button>
+
+  <button>☰<br>More</button>
+
+</div>
+
+<script>
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("./sw.js");
+  }
+</script>
 
 </body>
   </html>
